@@ -1,0 +1,103 @@
+.header {
+    background-color: cadetblue;
+  }
+  
+  .header-bar {
+    width: 80%;
+    height: 100px;
+    line-height: 60px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  .cart i {
+    font-size: 30px;
+  }
+
+.information-product-detail {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    margin-top: 30px;
+}
+
+.content-product {
+    margin-left: 40px;
+    margin-top: 50px;
+}
+.image-main img {
+    width: 300px;
+}
+.product-detail-name p {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.star i {
+     color: orange;
+}
+.star {
+    font-size: 20px;
+    margin: 15px 0px 15px 0px;
+}
+.price-product span {
+    font-size: 24px;
+}
+
+.decription-product {
+    width: 70%;
+    font-size: 16px;
+    color: gray;
+    margin: 20px 0px 15px 0px;
+}
+
+.count {
+    padding-left: 10px;
+    font-size: 19px;
+}
+.rate-star {
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+}
+.number {
+    color: gray;
+}
+
+.btn-add-cart button {
+    width: 280px;
+    height: 40px;
+    border: 0;
+    font-size: 17px;
+    background-color: brown;
+    color: white;
+    margin-top: 21px;
+}
+
+.btn-add-cart i {
+    padding-left: 18px;
+}
+.amount {
+    display: flex;
+    align-items: center;
+}
+.amount input {
+    width: 40px;
+    height: 31px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    border: 1px solid #ccc;
+
+}
+.amount button {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    background-color: steelblue;
+    color: white;
+    font-size: 20px;
+
+}

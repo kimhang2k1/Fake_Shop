@@ -1,6 +1,11 @@
-import ItemCart from "./ItemCart/ItemCart";
-
-function Cart() {
+function Cart({
+  cart,
+  deleteCart,
+  increase,
+  decrease,
+  disableDecrease,
+  disableIncrease,
+}) {
   return (
     <div className="cart">
       <div className="list-product-cart">
@@ -9,7 +14,6 @@ function Cart() {
           <table>
             <tbody>
               <tr>
-                <td>STT</td>
                 <td>Ảnh Sản Phẩm</td>
                 <td>Tên Sản Phẩm</td>
                 <td>Giá SP</td>
@@ -17,7 +21,48 @@ function Cart() {
                 <td>Thành Tiền</td>
                 <td></td>
               </tr>
-              <ItemCart />
+              {cart.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>
+                      <img
+                        className="image-cart"
+                        src={`${item.image}`}
+                        alt=""
+                      />
+                    </td>
+                    <td>{item.title}</td>
+                    <td>{item.price}</td>
+                    <td>
+                      <button
+                        className="btn-amount"
+                        onClick={() => decrease(item)}
+                        disabled={disableDecrease}
+                      >
+                        {" "}
+                        -{" "}
+                      </button>
+                      <input
+                        type="text"
+                        className="inputAmount"
+                        placeholder=""
+                        value={item.quantity}
+                        disabled
+                      />
+                      <button
+                        className="btn-amount"
+                        onClick={() => increase(item)}
+                        disabled={disableIncrease}
+                      >
+                        {" "}
+                        +{" "}
+                      </button>
+                    </td>
+                    <td>{item.quantity * item.price}</td>
+                    <td onClick={() => deleteCart(item)}>Xóa</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

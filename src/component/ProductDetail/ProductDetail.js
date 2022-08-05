@@ -1,10 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function ProductDetail() {
-  const [product, setProduct] = useState([]);
+function ProductDetail({ news, addToCart }) {
   const [number, setNumber] = useState(1);
   const { id } = useParams();
+
+  // function addToCart(item, amount) {
+  //   const check_index = cart.findIndex((c) => c.id === item.id);
+  //   if (check_index !== -1) {
+  //     console.log(check_index);
+  //     cart[check_index].quantity++;
+  //     console.log("Quantity updated:", cart);
+  //   } else {
+  //     setCart({ ...cart, quantity: amount });
+  //     console.log("The product has been added to cart:", cart);
+  //   }
+  // }
 
   const increaseNumber = () => {
     setNumber(number + 1);
@@ -16,73 +27,51 @@ function ProductDetail() {
       setNumber(number - 1);
     }
   };
-  useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        setProduct(json);
-      });
-  }, [id]);
-  const { image, title, description, price } = product;
 
-  const addToCart = (e) => {
-    e.preventDefault();
-    fetch("https://fakestoreapi.com/carts", {
-      method: "POST",
-      body: JSON.stringify({
-        userId: 5,
-        date: Date.now,
-        product: [
-          {
-            productId: id,
-            quanlity: number,
-          },
-        ],
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-      });
-  };
+  const product = news.filter((f) => f.id === Number(id));
 
   return (
     <div className="product-detail">
-      <div className="information-product-detail">
-        <div className="image-main">
-          <img src={`${image}`} alt="" />
-        </div>
-        <div className="content-product">
-          <div className="product-detail-name">
-            <p>{title}</p>
+      {product.map((item) => {
+        const rating = item["rating"];
+        return (
+          <div className="information-product-detail" key={item.id}>
+            <div className="image-main">
+              <img src={`${item.image}`} alt="" />
+            </div>
+            <div className="content-product">
+              <div className="product-detail-name">
+                <p>{item.title}</p>
+              </div>
+              <div className="star">
+                <span className="rate-star">
+                  {rating.rate} <i className="fa-solid fa-star"></i>
+                </span>
+                <span className="count">
+                  Đã bán <span className="number">{rating.count}</span>
+                </span>
+              </div>
+              <div className="price-product">
+                <span>{item.price}$</span>
+              </div>
+              <div className="decription-product">
+                <span>{item.description}</span>
+              </div>
+              <div className="amount">
+                <button onClick={increaseNumber}>+</button>
+                <input type="text" value={number} />
+                <button onClick={decreaseNumber}>-</button>
+              </div>
+              <div className="btn-add-cart">
+                <button type="submit" onClick={() => addToCart(item, number)}>
+                  Thêm vào giỏ hàng{" "}
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="star">
-            <span className="rate-star">
-              {product?.rating?.rate} <i className="fa-solid fa-star"></i>
-            </span>
-            <span className="count">
-              Đã bán <span className="number">{product?.rating?.count}</span>
-            </span>
-          </div>
-          <div className="price-product">
-            <span>{price}$</span>
-          </div>
-          <div className="decription-product">
-            <span>{description}</span>
-          </div>
-          <div className="amount">
-            <button onClick={increaseNumber}>+</button>
-            <input type="text" value={number} />
-            <button onClick={decreaseNumber}>-</button>
-          </div>
-          <div className="btn-add-cart">
-            <button onClick={(e) => addToCart(e)}>
-              Thêm vào giỏ hàng <i className="fa-solid fa-cart-shopping"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }

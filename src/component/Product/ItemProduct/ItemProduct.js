@@ -6,7 +6,7 @@ function ItemProduct({ item }) {
     <>
       <div className="item-product" key={item.id}>
         <div className="product-image">
-          <Link to={`/products/${item.id}`}>
+          <Link to={`/product/${item.id}`}>
             <img src={item.image} alt="" />{" "}
           </Link>
         </div>

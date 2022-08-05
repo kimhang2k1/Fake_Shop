@@ -33,3 +33,16 @@ td {
 .image-cart {
     width: 60px;
 }
+
+.btn-amount {
+    width: 25px;
+    height: 25px;
+    border: 1px solid #ccc;
+}
+.inputAmount {
+    width: 25px;
+    height: 21px;
+    text-align: center;
+    border: 1px solid #ccc;
+
+}

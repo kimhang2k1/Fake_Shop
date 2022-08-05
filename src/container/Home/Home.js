@@ -4,7 +4,7 @@ import Header from "../../component/Header/Header";
 import FilterProduct from "../../component/Product/FilterProduct/FilterProduct";
 import Product from "../../component/Product/Product";
 
-function Home({ news, category, currentSelected, sortPrice }) {
+function Home({ news, category, currentSelected, sortPrice, getProductById }) {
   return (
     <>
       <Header />
@@ -12,8 +12,9 @@ function Home({ news, category, currentSelected, sortPrice }) {
         category={category}
         currentSelected={currentSelected}
         sortPrice={sortPrice}
+        getProductById={getProductById}
       />
-      <Product news={news} />
+      <Product news={news} getProductById={getProductById} />
     </>
   );
 }

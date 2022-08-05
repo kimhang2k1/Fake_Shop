@@ -1,12 +1,13 @@
 import ItemProduct from "./ItemProduct/ItemProduct";
 
-function Product({ news }) {
+function Product({ news, getProductById }) {
+  const product = getProductById();
   return (
     <>
       <div id="product">
         <h2>Sản Phẩm</h2>
         <div className="product">
-          {news.map((item, index) => {
+          {product.map((item, index) => {
             return <ItemProduct key={index} item={item} />;
           })}
         </div>

@@ -5,6 +5,7 @@ function FilterProduct({ category, currentSelected, sortPrice }) {
         <div className="filter-category">
           <span>Danh mục sản phẩm :</span>
           <select onChange={(e) => currentSelected(e)}>
+            <option value="">Tất cả</option>;
             {category.map((cat, index) => {
               return (
                 <option key={index} value={cat}>

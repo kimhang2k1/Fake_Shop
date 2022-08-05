@@ -1,28 +1,29 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import PopUp from "./component/PopUp/PopUp";
 import Home from "./container/Home/Home";
 import PageCart from "./container/PageCart/PageCart";
 import PageProductDetail from "./container/PageDetailProduct/PageProductDetail";
 function App() {
+  const [show, setShow] = useState(false);
   const [news, setNews] = useState([]);
   const [cart, setCart] = useState([]);
   const [disableIncrease, setDisableIncrease] = useState(false);
   const [disableDecrease, setDisableDecrease] = useState(false);
   const [category, setCategory] = useState([]);
-  const [categoriesId, setCategotiesId] = useState("electronics");
+  const [categoriesId, setCategotiesId] = useState("");
   const [sort, setSort] = useState("asc");
 
   // load category by ID
   const currentSelected = (e) => {
     setCategotiesId(e.target.value);
   };
-  useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/category/${categoriesId}`)
-      .then((res) => res.json())
-      .then((json) => {
-        setNews(json);
-      });
-  }, [categoriesId]);
+  const getProductById = () => {
+    if (!categoriesId) {
+      return news;
+    }
+    return news.filter((f) => f.category === categoriesId);
+  };
 
   //load category
   useEffect(() => {
@@ -33,16 +34,7 @@ function App() {
       });
   }, []);
 
-  // sort price
-
-  // useEffect(() => {
-  //   fetch(`https://fakestoreapi.com/products?sort=${sort}`)
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       setNews(json);
-  //     });
-  // }, [sort]);
-
+  // sort by Price
   const sortPrice = (e) => {
     setSort(e.target.value);
     if (sort === "desc") {
@@ -52,8 +44,16 @@ function App() {
       const products = news.sort((a, b) => b.price - a.price);
       setNews(products);
     }
+    // const product =
+    //   sort === ""
+    //     ? news
+    //     : sort === "asc"
+    //     ? news.sort((a, b) => a.price - b.price)
+    //     : news.sort((a, b) => b.price - a.price);
+
+    // setNews(product);
   };
-  //load product
+  // add to cart
   const addToCart = (product, amount) => {
     const ProductExist = cart.find((item) => item.id === product.id);
     if (ProductExist) {
@@ -73,8 +73,10 @@ function App() {
         },
       ]);
     }
-    alert("Thêm giỏ hàng thành công!!!");
+    setShow(true);
   };
+
+  // load all products
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
@@ -83,6 +85,7 @@ function App() {
       });
   }, []);
 
+  // delete cart
   const deleteCart = (el) => {
     let cartClone = [...cart];
     cartClone = cartClone.filter((cartItem) => cartItem.id !== el.id);
@@ -122,6 +125,10 @@ function App() {
 
     setCart(mapped);
   };
+
+  const closeModal = () => {
+    setShow(false);
+  };
   return (
     <>
       <Routes>
@@ -129,16 +136,24 @@ function App() {
           path="/"
           element={
             <Home
-              news={news}
               category={category}
               currentSelected={currentSelected}
               sortPrice={sortPrice}
+              news={news}
+              getProductById={getProductById}
             />
           }
         />
         <Route
           path="/product/:id"
-          element={<PageProductDetail news={news} addToCart={addToCart} />}
+          element={
+            <PageProductDetail
+              news={news}
+              addToCart={addToCart}
+              show={show}
+              closeModal={closeModal}
+            />
+          }
         />
         <Route
           path="/cart"
@@ -153,6 +168,7 @@ function App() {
             />
           }
         />
+        <Route path="/popup" element={<PopUp />} />
       </Routes>
     </>
   );
